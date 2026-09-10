@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HAN — 以书为舟，与智共进</title>
+  <!-- 引入 Tailwind CSS 快速排版引擎 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // 启用基于 class 的暗色模式支持与颜色配置
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // 深色系 (原版)
+            appleDarkBg: '#000000',
+            appleDarkCard: '#161617',
+            appleDarkTextGray: '#86868b',
+            // 浅色系
+            appleLightBg: '#f5f5f7',
+            appleLightCard: '#ffffff',
+            appleLightText: '#1d1d1f',
+            appleLightTextMuted: '#6e6e73',
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    // 页面加载前初始化主题，避免闪屏
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-appleLightBg dark:bg-appleDarkBg text-appleLightText dark:text-white antialiased font-sans transition-colors duration-300 selection:bg-neutral-300 dark:selection:bg-neutral-700 selection:text-black dark:selection:text-white">
+
+  <!-- 1. Apple 风格极简磨砂导航栏 -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/70 dark:bg-black/70 border-b border-black/[0.06] dark:border-neutral-800/60 transition-colors duration-300">
+    <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-xs tracking-wide">
+      <a href="#" class="font-medium text-sm tracking-widest text-neutral-900 dark:text-neutral-200 hover:text-black dark:hover:text-white transition">HAN</a>
+      
+      <nav class="hidden sm:flex items-center space-x-8 text-appleLightTextMuted dark:text-appleDarkTextGray">
+        <a href="#" class="hover:text-black dark:hover:text-white transition">读书专栏</a>
+        <a href="#" class="hover:text-black dark:hover:text-white transition">沉思录</a>
+        <!-- AI工具站下拉菜单 -->
+        <div class="relative group">
+          <button class="hover:text-black dark:hover:text-white transition flex items-center gap-1">
+            AI工具站
+            <svg class="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-appleDarkCard rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_40px_rgba(0,0,0,0.4)] border border-black/[0.08] dark:border-neutral-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out transform scale-95 group-hover:scale-100 z-50">
+            <div class="py-2">
+              <a href="codex.html" class="block px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all duration-150">Codex</a>
+              <a href="claude-code.html" class="block px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all duration-150">Claude Code</a>
+              <a href="mimo-code.html" class="block px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all duration-150">Mimo Code</a>
+              <a href="free-airport.html" class="block px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all duration-150">自由机场</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <!-- 主题切换按钮 -->
+        <button id="theme-toggle" type="button" aria-label="切换主题" class="w-8 h-8 rounded-full flex items-center justify-center border border-black/10 dark:border-neutral-800 bg-white/50 dark:bg-neutral-900/50 text-neutral-600 dark:text-neutral-300 hover:scale-105 active:scale-95 transition-all">
+          <!-- 太阳图标 (深色模式下显示) -->
+          <svg id="theme-toggle-light-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9h-1m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+          </svg>
+          <!-- 月亮图标 (浅色模式下显示) -->
+          <svg id="theme-toggle-dark-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+
+        <!-- 搜索框 -->
+        <div class="relative" id="search-container">
+          <button id="search-toggle" type="button" aria-label="搜索" class="w-8 h-8 rounded-full flex items-center justify-center border border-black/10 dark:border-neutral-800 bg-white/50 dark:bg-neutral-900/50 text-neutral-600 dark:text-neutral-300 hover:scale-105 active:scale-95 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+          
+          <!-- 搜索下拉框 -->
+          <div id="search-dropdown" class="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-white dark:bg-appleDarkCard rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_40px_rgba(0,0,0,0.4)] border border-black/[0.08] dark:border-neutral-800 hidden overflow-hidden">
+            <div class="p-4 border-b border-black/[0.06] dark:border-neutral-800">
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input 
+                  type="text" 
+                  id="search-input" 
+                  placeholder="搜索内容..." 
+                  class="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800/50 border-none rounded-xl text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/10"
+                />
+              </div>
+            </div>
+            <div id="search-results" class="max-h-80 overflow-y-auto">
+              <div class="px-4 py-8 text-center text-sm text-neutral-400 dark:text-neutral-500">
+                输入关键词开始搜索
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#bento" class="px-3 py-1 rounded-full bg-black text-white dark:bg-neutral-100 dark:text-black font-medium hover:bg-neutral-800 dark:hover:bg-neutral-300 transition">探索</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Hero 巨幅首屏 -->
+  <section class="pt-40 pb-24 px-6 text-center max-w-4xl mx-auto">
+    <p class="text-xs uppercase tracking-[0.25em] text-appleLightTextMuted dark:text-neutral-400 font-semibold mb-4">阅读 · 思考 · 成长</p>
+    <h1 class="text-5xl sm:text-7xl lg:text-8xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 mb-6 leading-none">
+      以书为舟，<br />
+      <span class="bg-gradient-to-r from-neutral-900 via-neutral-600 to-neutral-400 dark:from-neutral-200 dark:via-neutral-400 dark:to-neutral-600 bg-clip-text text-transparent">与智共进。</span>
+    </h1>
+    <p class="text-lg sm:text-xl text-appleLightTextMuted dark:text-appleDarkTextGray max-w-2xl mx-auto font-normal leading-relaxed mb-10">
+      在信息洪流中守住深度阅读的定力。每一本好书都是一艘渡船，载你穿越认知的迷雾，抵达更辽阔的思想彼岸。
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#bento" class="px-6 py-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-medium text-sm hover:bg-neutral-800 dark:hover:bg-neutral-200 transition">开始探索</a>
+      <a href="#about" class="px-6 py-2.5 rounded-full bg-white dark:bg-appleDarkCard text-neutral-800 dark:text-neutral-300 border border-black/10 dark:border-neutral-800 font-medium text-sm hover:border-black/30 dark:hover:border-neutral-600 transition shadow-[0_2px_4px_rgba(0,0,0,0.02)]">关于这里 →</a>
+    </div>
+  </section>
+
+  <!-- 3. Bento Grid（便当盒卡片） -->
+  <section id="bento" class="max-w-5xl mx-auto px-6 py-20">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 mb-3">阅读的力量。</h2>
+      <p class="text-appleLightTextMuted dark:text-appleDarkTextGray">读进去的是文字，长出来的是格局。</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <!-- 大卡片 1 -->
+      <div class="md:col-span-2 rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">读书专栏</span>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">精读与笔记</h3>
+          <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed max-w-md">
+            每一本书都值得被认真对待。深度拆解经典著作，提炼核心思想，将知识转化为可执行的行动框架。
+          </p>
+        </div>
+        <div class="mt-8 pt-6 border-t border-black/[0.05] dark:border-neutral-800/50 flex justify-between items-center text-xs text-neutral-400">
+          <span>输入 · 内化 · 输出</span>
+          <span>01</span>
+        </div>
+      </div>
+
+      <!-- 小卡片 2 -->
+      <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">沉思录</span>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">独立思考</h3>
+          <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed">
+            不随波逐流，不人云亦云。在阅读之后沉淀自己的判断，形成独立而清醒的思考体系。
+          </p>
+        </div>
+        <div class="mt-8 pt-6 border-t border-black/[0.05] dark:border-neutral-800/50 flex justify-between items-center text-xs text-neutral-400">
+          <span>质疑 · 反思 · 洞察</span>
+          <span>02</span>
+        </div>
+      </div>
+
+      <!-- 小卡片 3 -->
+      <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">AI工具站</span>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">用技术加速</h3>
+          <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed">
+            善用AI工具提升效率，让机器处理重复劳动，让人专注于创造性思考与深度阅读。
+          </p>
+        </div>
+        <div class="mt-8 pt-6 border-t border-black/[0.05] dark:border-neutral-800/50 flex justify-between items-center text-xs text-neutral-400">
+          <span>工具 · 效率 · 创造</span>
+          <span>03</span>
+        </div>
+      </div>
+
+      <!-- 大卡片 4 -->
+      <div class="md:col-span-2 rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">长期主义</span>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">日拱一卒，功不唐捐</h3>
+          <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed max-w-md">
+            知识的复利需要时间。每天读一点，每天想一点，日积月累便是脱胎换骨。不必急于求成，但绝不能停止前行。
+          </p>
+        </div>
+        <div class="mt-8 pt-6 border-t border-black/[0.05] dark:border-neutral-800/50 flex justify-between items-center text-xs text-neutral-400">
+          <span>积累 · 复利 · 蜕变</span>
+          <span>04</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 理念沉淀区 -->
+  <section id="about" class="py-28 px-6 bg-[#eaebee] dark:bg-[#0a0a0b] border-y border-black/[0.05] dark:border-neutral-900 transition-colors duration-300">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-8">
+        "书读百遍，其义自见。"
+      </h2>
+      <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-base sm:text-lg leading-relaxed mb-8">
+        这里不贩卖焦虑，不兜售捷径。只记录真实的阅读体验与独立思考。每一本书、每一篇笔记，都是与作者跨越时空的对话。愿你也能在这里，找到属于自己的那艘船。
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. 极简页脚 -->
+  <footer id="contact" class="max-w-5xl mx-auto px-6 py-12 text-center sm:text-left text-xs text-appleLightTextMuted dark:text-appleDarkTextGray flex flex-col sm:flex-row justify-between items-center gap-4 transition-colors duration-300">
+    <div>
+      <p>© 2026 HAN Enterprises. 保留所有权利。</p>
+      <p class="text-neutral-400 dark:text-neutral-600 mt-1">以书为舟，与智共进。</p>
+    </div>
+    <div class="flex gap-6">
+      <a href="#" class="hover:text-black dark:hover:text-white transition">隐私政策</a>
+      <a href="#" class="hover:text-black dark:hover:text-white transition">使用条款</a>
+      <a href="#" class="hover:text-black dark:hover:text-white transition">联系支持</a>
+    </div>
+  </footer>
+
+  <!-- 主题切换逻辑交互脚本 -->
+  <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+
+    function syncIcons() {
+      if (document.documentElement.classList.contains('dark')) {
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+      } else {
+        lightIcon.classList.add('hidden');
+        darkIcon.classList.remove('hidden');
+      }
+    }
+
+    // 初始化图标状态
+    syncIcons();
+
+    themeToggleBtn.addEventListener('click', function() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      syncIcons();
+    });
+  </script>
+
+  <!-- 搜索功能脚本 -->
+  <script>
+    const searchToggle = document.getElementById('search-toggle');
+    const searchDropdown = document.getElementById('search-dropdown');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    // 页面内容索引
+    const pageContent = [
+      {
+        title: '以书为舟，与智共进',
+        section: '首页',
+        text: '在信息洪流中守住深度阅读的定力。每一本好书都是一艘渡船，载你穿越认知的迷雾，抵达更辽阔的思想彼岸。',
+        link: '#'
+      },
+      {
+        title: '精读与笔记',
+        section: '读书专栏',
+        text: '每一本书都值得被认真对待。深度拆解经典著作，提炼核心思想，将知识转化为可执行的行动框架。',
+        link: '#bento'
+      },
+      {
+        title: '独立思考',
+        section: '沉思录',
+        text: '不随波逐流，不人云亦云。在阅读之后沉淀自己的判断，形成独立而清醒的思考体系。',
+        link: '#bento'
+      },
+      {
+        title: '用技术加速',
+        section: 'AI工具站',
+        text: '善用AI工具提升效率，让机器处理重复劳动，让人专注于创造性思考与深度阅读。',
+        link: '#bento'
+      },
+      {
+        title: '日拱一卒，功不唐捐',
+        section: '长期主义',
+        text: '知识的复利需要时间。每天读一点，每天想一点，日积月累便是脱胎换骨。',
+        link: '#bento'
+      },
+      {
+        title: '书读百遍，其义自见',
+        section: '理念',
+        text: '这里不贩卖焦虑，不兜售捷径。只记录真实的阅读体验与独立思考。',
+        link: '#about'
+      }
+    ];
+
+    // 切换搜索框显示
+    searchToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      searchDropdown.classList.toggle('hidden');
+      if (!searchDropdown.classList.contains('hidden')) {
+        searchInput.focus();
+      }
+    });
+
+    // 点击外部关闭搜索框
+    document.addEventListener('click', function(e) {
+      if (!searchContainer.contains(e.target)) {
+        searchDropdown.classList.add('hidden');
+      }
+    });
+
+    // 阻止搜索框内部点击事件冒泡
+    searchDropdown.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+
+    // 搜索功能
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim().toLowerCase();
+      
+      if (!query) {
+        searchResults.innerHTML = '<div class="px-4 py-8 text-center text-sm text-neutral-400 dark:text-neutral-500">输入关键词开始搜索</div>';
+        return;
+      }
+
+      const results = pageContent.filter(item => 
+        item.title.toLowerCase().includes(query) ||
+        item.text.toLowerCase().includes(query) ||
+        item.section.toLowerCase().includes(query)
+      );
+
+      if (results.length === 0) {
+        searchResults.innerHTML = `
+          <div class="px-4 py-8 text-center text-sm text-neutral-400 dark:text-neutral-500">
+            未找到匹配内容
+          </div>
+        `;
+        return;
+      }
+
+      searchResults.innerHTML = results.map(item => `
+        <a href="${item.link}" class="block px-4 py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition border-b border-black/[0.04] dark:border-neutral-800/50 last:border-b-0" onclick="document.getElementById('search-dropdown').classList.add('hidden')">
+          <div class="text-xs text-neutral-400 dark:text-neutral-500 mb-1">${item.section}</div>
+          <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100 mb-1">${highlightText(item.title, query)}</div>
+          <div class="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2">${highlightText(item.text, query)}</div>
+        </a>
+      `).join('');
+    });
+
+    // 高亮匹配文本
+    function highlightText(text, query) {
+      if (!query) return text;
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-900/50 rounded px-0.5">$1</mark>');
+    }
+
+    // 键盘快捷键：Cmd/Ctrl + K 打开搜索
+    document.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchDropdown.classList.remove('hidden');
+        searchInput.focus();
+      }
+      if (e.key === 'Escape') {
+        searchDropdown.classList.add('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>

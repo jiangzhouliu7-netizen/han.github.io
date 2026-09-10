@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code 保姆级安装教程 — HAN AI工具</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            appleDarkBg: '#000000',
+            appleDarkCard: '#161617',
+            appleDarkTextGray: '#86868b',
+            appleLightBg: '#f5f5f7',
+            appleLightCard: '#ffffff',
+            appleLightText: '#1d1d1f',
+            appleLightTextMuted: '#6e6e73',
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-appleLightBg dark:bg-appleDarkBg text-appleLightText dark:text-white antialiased font-sans transition-colors duration-300 selection:bg-neutral-300 dark:selection:bg-neutral-700 selection:text-black dark:selection:text-white">
+
+  <!-- 导航栏 -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/70 dark:bg-black/70 border-b border-black/[0.06] dark:border-neutral-800/60 transition-colors duration-300">
+    <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-xs tracking-wide">
+      <a href="index.html" class="font-medium text-sm tracking-widest text-neutral-900 dark:text-neutral-200 hover:text-black dark:hover:text-white transition">HAN</a>
+      
+      <nav class="hidden sm:flex items-center space-x-8 text-appleLightTextMuted dark:text-appleDarkTextGray">
+        <a href="#" class="hover:text-black dark:hover:text-white transition">读书专栏</a>
+        <a href="#" class="hover:text-black dark:hover:text-white transition">沉思录</a>
+        <div class="relative group">
+          <button class="hover:text-black dark:hover:text-white transition flex items-center gap-1">
+            AI工具站
+            <svg class="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-appleDarkCard rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_40px_rgba(0,0,0,0.4)] border border-black/[0.08] dark:border-neutral-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out transform scale-95 group-hover:scale-100 z-50">
+            <div class="py-2">
+              <a href="codex.html" class="block px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all duration-150">Codex</a>
+              <a href="claude-code.html" class="block px-4 py-2.5 text-sm text-neutral-900 dark:text-neutral-100 font-medium bg-neutral-50 dark:bg-neutral-800/50 transition-all duration-150">Claude Code</a>
+              <a href="mimo-code.html" class="block px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all duration-150">Mimo Code</a>
+              <a href="free-airport.html" class="block px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all duration-150">自由机场</a>
+            </div>
+          </div>
+        </div>
+        <a href="#tutorial" class="hover:text-black dark:hover:text-white transition">安装教程</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <button id="theme-toggle" type="button" aria-label="切换主题" class="w-8 h-8 rounded-full flex items-center justify-center border border-black/10 dark:border-neutral-800 bg-white/50 dark:bg-neutral-900/50 text-neutral-600 dark:text-neutral-300 hover:scale-105 active:scale-95 transition-all">
+          <svg id="theme-toggle-light-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9h-1m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+          </svg>
+          <svg id="theme-toggle-dark-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+
+        <div class="relative" id="search-container">
+          <button id="search-toggle" type="button" aria-label="搜索" class="w-8 h-8 rounded-full flex items-center justify-center border border-black/10 dark:border-neutral-800 bg-white/50 dark:bg-neutral-900/50 text-neutral-600 dark:text-neutral-300 hover:scale-105 active:scale-95 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+          
+          <div id="search-dropdown" class="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-white dark:bg-appleDarkCard rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_40px_rgba(0,0,0,0.4)] border border-black/[0.08] dark:border-neutral-800 hidden overflow-hidden">
+            <div class="p-4 border-b border-black/[0.06] dark:border-neutral-800">
+              <div class="relative">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" id="search-input" placeholder="搜索内容..." class="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800/50 border-none rounded-xl text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/10" />
+              </div>
+            </div>
+            <div id="search-results" class="max-h-80 overflow-y-auto">
+              <div class="px-4 py-8 text-center text-sm text-neutral-400 dark:text-neutral-500">输入关键词开始搜索</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="index.html#contact" class="px-3 py-1 rounded-full bg-black text-white dark:bg-neutral-100 dark:text-black font-medium hover:bg-neutral-800 dark:hover:bg-neutral-300 transition">探索</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="pt-40 pb-24 px-6 text-center max-w-4xl mx-auto">
+    <p class="text-xs uppercase tracking-[0.25em] text-appleLightTextMuted dark:text-neutral-400 font-semibold mb-4">AI编程工具</p>
+    <h1 class="text-5xl sm:text-7xl lg:text-8xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 mb-6 leading-none">
+      Claude Code<br />
+      <span class="text-3xl sm:text-4xl lg:text-5xl text-appleLightTextMuted dark:text-appleDarkTextGray">保姆级安装教程</span>
+    </h1>
+    <p class="text-lg sm:text-xl text-appleLightTextMuted dark:text-appleDarkTextGray max-w-2xl mx-auto font-normal leading-relaxed mb-10">
+      Anthropic推出的终端AI编程代理。在命令行中直接运行，能够理解整个代码库，执行复杂的多文件编辑、调试和重构任务。
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#features" class="px-6 py-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-medium text-sm hover:bg-neutral-800 dark:hover:bg-neutral-200 transition">了解更多</a>
+      <a href="#tutorial" class="px-6 py-2.5 rounded-full bg-white dark:bg-appleDarkCard text-neutral-800 dark:text-neutral-300 border border-black/10 dark:border-neutral-800 font-medium text-sm hover:border-black/30 dark:hover:border-neutral-600 transition shadow-[0_2px_4px_rgba(0,0,0,0.02)]">安装教程 →</a>
+    </div>
+  </section>
+
+  <!-- 特性展示 -->
+  <section id="features" class="max-w-5xl mx-auto px-6 py-20">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 mb-3">核心能力</h2>
+      <p class="text-appleLightTextMuted dark:text-appleDarkTextGray">终端驱动，深度集成</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">全库理解</span>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">代码库感知</h3>
+          <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed">
+            自动索引整个项目结构，理解文件之间的依赖关系，实现跨文件的智能编辑和重构。
+          </p>
+        </div>
+        <div class="mt-8 pt-6 border-t border-black/[0.05] dark:border-neutral-800/50 flex justify-between items-center text-xs text-neutral-400">
+          <span>深度上下文</span>
+          <span>01</span>
+        </div>
+      </div>
+
+      <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">自主执行</span>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">命令行代理</h3>
+          <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed">
+            直接在终端执行shell命令、运行测试、管理git操作，无需离开命令行环境。
+          </p>
+        </div>
+        <div class="mt-8 pt-6 border-t border-black/[0.05] dark:border-neutral-800/50 flex justify-between items-center text-xs text-neutral-400">
+          <span>CLI原生</span>
+          <span>02</span>
+        </div>
+      </div>
+
+      <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">安全控制</span>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">权限管理</h3>
+          <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed">
+            内置权限系统，敏感操作需用户确认，沙箱隔离确保执行安全。
+          </p>
+        </div>
+        <div class="mt-8 pt-6 border-t border-black/[0.05] dark:border-neutral-800/50 flex justify-between items-center text-xs text-neutral-400">
+          <span>安全优先</span>
+          <span>03</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工作流程区 -->
+  <section id="workflow" class="py-28 px-6 bg-[#eaebee] dark:bg-[#0a0a0b] border-y border-black/[0.05] dark:border-neutral-900 transition-colors duration-300">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-8">
+        "命令行即界面，终端即舞台。"
+      </h2>
+      <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-base sm:text-lg leading-relaxed mb-8">
+        Claude Code将AI能力深度融入开发工作流。不切换窗口，不中断思路，在最熟悉的环境中完成最复杂的任务。
+      </p>
+    </div>
+  </section>
+
+  <!-- 保姆级安装教程 -->
+  <section id="tutorial" class="max-w-5xl mx-auto px-6 py-20">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 mb-3">保姆级安装教程</h2>
+      <p class="text-appleLightTextMuted dark:text-appleDarkTextGray">从零开始，手把手带你完成安装</p>
+    </div>
+
+    <!-- 环境要求 -->
+    <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-600 dark:text-neutral-300">0</span>
+        <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100">环境要求</h3>
+      </div>
+      <div class="ml-11 space-y-2 text-sm text-appleLightTextMuted dark:text-appleDarkTextGray leading-relaxed">
+        <p><strong>操作系统：</strong>macOS / Linux / Windows (WSL2)</p>
+        <p><strong>Node.js：</strong>版本 18 或更高</p>
+        <p><strong>Claude 账号：</strong>需要 Anthropic API Key 或 Claude Pro/Team 订阅</p>
+        <p><strong>终端：</strong>iTerm2 / Terminal / Windows Terminal</p>
+      </div>
+    </div>
+
+    <!-- 步骤 1 -->
+    <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-semibold">1</span>
+        <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100">安装 Claude Code</h3>
+      </div>
+      <div class="ml-11 space-y-4 text-sm text-appleLightTextMuted dark:text-appleDarkTextGray leading-relaxed">
+        <p>打开终端，执行以下命令全局安装：</p>
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 font-mono text-xs overflow-x-auto">
+          <p>npm install -g @anthropic-ai/claude-code</p>
+        </div>
+        <p>安装完成后验证：</p>
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 font-mono text-xs overflow-x-auto">
+          <p>claude --version &nbsp;&nbsp;<span class="text-neutral-400"># 应显示版本号</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 步骤 2 -->
+    <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-semibold">2</span>
+        <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100">登录认证</h3>
+      </div>
+      <div class="ml-11 space-y-4 text-sm text-appleLightTextMuted dark:text-appleDarkTextGray leading-relaxed">
+        <p>Claude Code 支持两种认证方式，任选其一：</p>
+        <p class="font-medium text-neutral-900 dark:text-neutral-100">方式一：Anthropic Console 账号（推荐）</p>
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 font-mono text-xs overflow-x-auto">
+          <p class="text-neutral-500 dark:text-neutral-400"># 直接启动，会自动打开浏览器登录</p>
+          <p>claude</p>
+        </div>
+        <p class="font-medium text-neutral-900 dark:text-neutral-100">方式二：API Key</p>
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 font-mono text-xs overflow-x-auto">
+          <p>export ANTHROPIC_API_KEY="sk-ant-你的密钥"</p>
+          <p>echo 'export ANTHROPIC_API_KEY="sk-ant-你的密钥"' >> ~/.zshrc</p>
+          <p>source ~/.zshrc</p>
+        </div>
+        <p class="text-xs text-neutral-400 dark:text-neutral-500">API Key 获取路径：console.anthropic.com → API Keys → Create Key</p>
+      </div>
+    </div>
+
+    <!-- 步骤 3 -->
+    <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-semibold">3</span>
+        <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100">首次启动</h3>
+      </div>
+      <div class="ml-11 space-y-4 text-sm text-appleLightTextMuted dark:text-appleDarkTextGray leading-relaxed">
+        <p>进入你的项目目录并启动：</p>
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 font-mono text-xs overflow-x-auto">
+          <p class="text-neutral-500 dark:text-neutral-400"># 进入项目</p>
+          <p>cd your-project</p>
+          <p class="text-neutral-500 dark:text-neutral-400 mt-2"># 启动 Claude Code</p>
+          <p>claude</p>
+        </div>
+        <p>首次启动会提示你选择主题和确认权限设置，按提示操作即可。进入后直接输入自然语言指令：</p>
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 font-mono text-xs overflow-x-auto">
+          <p class="text-green-600 dark:text-green-400">> 帮我分析这个项目的代码结构，然后创建一个 README.md</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 步骤 4 -->
+    <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-semibold">4</span>
+        <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100">常用命令速查</h3>
+      </div>
+      <div class="ml-11 space-y-4 text-sm text-appleLightTextMuted dark:text-appleDarkTextGray leading-relaxed">
+        <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 font-mono text-xs overflow-x-auto space-y-1">
+          <p><span class="text-neutral-500 dark:text-neutral-400"># 交互模式（默认）</span></p>
+          <p>claude</p>
+          <p class="mt-2"><span class="text-neutral-500 dark:text-neutral-400"># 单次执行模式（不进入交互）</span></p>
+          <p>claude -p "解释这段代码的作用"</p>
+          <p class="mt-2"><span class="text-neutral-500 dark:text-neutral-400"># 继续上次对话</span></p>
+          <p>claude --continue</p>
+          <p class="mt-2"><span class="text-neutral-500 dark:text-neutral-400"># 恢复指定会话</span></p>
+          <p>claude --resume</p>
+          <p class="mt-2"><span class="text-neutral-500 dark:text-neutral-400"># 查看帮助</span></p>
+          <p>claude --help</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 常见问题 -->
+    <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-600 dark:text-neutral-300">?</span>
+        <h3 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100">常见问题</h3>
+      </div>
+      <div class="ml-11 space-y-4 text-sm text-appleLightTextMuted dark:text-appleDarkTextGray leading-relaxed">
+        <div>
+          <p class="font-medium text-neutral-900 dark:text-neutral-100 mb-1">Q: 登录后提示 403 错误？</p>
+          <p>A: 确认你的 Anthropic 账号已开通 API 访问权限，且所在地区支持使用。</p>
+        </div>
+        <div>
+          <p class="font-medium text-neutral-900 dark:text-neutral-100 mb-1">Q: 如何让 Claude Code 使用特定模型？</p>
+          <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-3 font-mono text-xs mt-2">
+            <p>claude --model claude-sonnet-4-20250514</p>
+          </div>
+        </div>
+        <div>
+          <p class="font-medium text-neutral-900 dark:text-neutral-100 mb-1">Q: 如何更新到最新版本？</p>
+          <div class="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-3 font-mono text-xs mt-2">
+            <p>npm update -g @anthropic-ai/claude-code</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 自由机场注册卡片 -->
+  <section class="max-w-5xl mx-auto px-6 py-20">
+    <div class="rounded-3xl bg-gradient-to-br from-neutral-900 to-neutral-700 dark:from-neutral-100 dark:to-neutral-300 p-10 sm:p-14 text-center shadow-[0_8px_40px_rgba(0,0,0,0.15)]">
+      <p class="text-xs uppercase tracking-[0.25em] text-neutral-400 dark:text-neutral-500 font-semibold mb-4">网络自由</p>
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-white dark:text-neutral-900 mb-4">注册自由机场</h2>
+      <p class="text-neutral-300 dark:text-neutral-600 text-sm sm:text-base max-w-lg mx-auto leading-relaxed mb-8">
+        使用邀请链接注册，享受安全、稳定、高速的网络代理服务。
+      </p>
+      <a href="https://cn.freedomport.cc/#/auth?invite=uul3wSgu" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-neutral-900 dark:bg-neutral-900 dark:text-white font-semibold text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition shadow-[0_4px_16px_rgba(0,0,0,0.2)] active:scale-95">
+        前往注册
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+      </a>
+      <p class="text-neutral-500 dark:text-neutral-500 text-xs mt-4">cn.freedomport.cc</p>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer id="contact" class="max-w-5xl mx-auto px-6 py-12 text-center sm:text-left text-xs text-appleLightTextMuted dark:text-appleDarkTextGray flex flex-col sm:flex-row justify-between items-center gap-4 transition-colors duration-300">
+    <div>
+      <p>© 2026 HAN Enterprises. 保留所有权利。</p>
+      <p class="text-neutral-400 dark:text-neutral-600 mt-1">从汉之兴衰中洞悉白手起家的商业答案。</p>
+    </div>
+    <div class="flex gap-6">
+      <a href="#" class="hover:text-black dark:hover:text-white transition">隐私政策</a>
+      <a href="#" class="hover:text-black dark:hover:text-white transition">使用条款</a>
+      <a href="#" class="hover:text-black dark:hover:text-white transition">联系支持</a>
+    </div>
+  </footer>
+
+  <!-- 主题切换脚本 -->
+  <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    function syncIcons() {
+      if (document.documentElement.classList.contains('dark')) {
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+      } else {
+        lightIcon.classList.add('hidden');
+        darkIcon.classList.remove('hidden');
+      }
+    }
+    syncIcons();
+    themeToggleBtn.addEventListener('click', function() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      syncIcons();
+    });
+  </script>
+
+  <!-- 搜索脚本 -->
+  <script>
+    const searchToggle = document.getElementById('search-toggle');
+    const searchDropdown = document.getElementById('search-dropdown');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    const pageContent = [
+      { title: 'Claude Code', section: 'AI工具', text: 'Anthropic推出的终端AI编程代理。在命令行中直接运行，能够理解整个代码库，执行复杂的多文件编辑、调试和重构任务。', link: '#' },
+      { title: '代码库感知', section: '核心能力', text: '自动索引整个项目结构，理解文件之间的依赖关系，实现跨文件的智能编辑和重构。', link: '#features' },
+      { title: '命令行代理', section: '核心能力', text: '直接在终端执行shell命令、运行测试、管理git操作，无需离开命令行环境。', link: '#features' },
+      { title: '权限管理', section: '核心能力', text: '内置权限系统，敏感操作需用户确认，沙箱隔离确保执行安全。', link: '#features' },
+      { title: '命令行即界面，终端即舞台', section: '优势', text: 'Claude Code将AI能力深度融入开发工作流。不切换窗口，不中断思路，在最熟悉的环境中完成最复杂的任务。', link: '#workflow' },
+      { title: '保姆级安装教程', section: '教程', text: '从零开始，手把手带你完成Claude Code的安装、认证和首次使用。', link: '#tutorial' },
+      { title: '安装 Claude Code', section: '安装步骤', text: 'npm install -g @anthropic-ai/claude-code 全局安装Claude Code命令行工具。', link: '#tutorial' },
+      { title: '登录认证', section: '安装步骤', text: '支持Anthropic Console账号登录或API Key两种认证方式。', link: '#tutorial' },
+      { title: '常用命令速查', section: '安装步骤', text: 'claude启动交互模式，-p单次执行，--continue继续上次对话，--resume恢复会话。', link: '#tutorial' }
+    ];
+    searchToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      searchDropdown.classList.toggle('hidden');
+      if (!searchDropdown.classList.contains('hidden')) searchInput.focus();
+    });
+    document.addEventListener('click', function(e) {
+      if (!searchContainer.contains(e.target)) searchDropdown.classList.add('hidden');
+    });
+    searchDropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim().toLowerCase();
+      if (!query) { searchResults.innerHTML = '<div class="px-4 py-8 text-center text-sm text-neutral-400 dark:text-neutral-500">输入关键词开始搜索</div>'; return; }
+      const results = pageContent.filter(item => item.title.toLowerCase().includes(query) || item.text.toLowerCase().includes(query) || item.section.toLowerCase().includes(query));
+      if (results.length === 0) { searchResults.innerHTML = '<div class="px-4 py-8 text-center text-sm text-neutral-400 dark:text-neutral-500">未找到匹配内容</div>'; return; }
+      searchResults.innerHTML = results.map(item => `<a href="${item.link}" class="block px-4 py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition border-b border-black/[0.04] dark:border-neutral-800/50 last:border-b-0" onclick="document.getElementById('search-dropdown').classList.add('hidden')"><div class="text-xs text-neutral-400 dark:text-neutral-500 mb-1">${item.section}</div><div class="text-sm font-medium text-neutral-900 dark:text-neutral-100 mb-1">${highlightText(item.title, query)}</div><div class="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-2">${highlightText(item.text, query)}</div></a>`).join('');
+    });
+    function highlightText(text, query) {
+      if (!query) return text;
+      return text.replace(new RegExp(`(${query})`, 'gi'), '<mark class="bg-yellow-200 dark:bg-yellow-900/50 rounded px-0.5">$1</mark>');
+    }
+    document.addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchDropdown.classList.remove('hidden'); searchInput.focus(); }
+      if (e.key === 'Escape') searchDropdown.classList.add('hidden');
+    });
+  </script>
+
+</body>
+</html>
