@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <title>HAN — 以书为舟，与智共进</title>
+  <meta name="description" content="HAN个人知识站：深度阅读、独立思考、AI工具教程。以书为舟，与智共进，记录真实的阅读体验与成长轨迹。" />
+  <meta name="keywords" content="HAN, 读书, 阅读笔记, 沉思录, AI工具, Codex, Claude Code, 个人成长, 深度阅读, 独立思考" />
+  <meta name="author" content="HAN" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://hanevolve.cn/" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hanevolve.cn/" />
+  <meta property="og:title" content="HAN — 以书为舟，与智共进" />
+  <meta property="og:description" content="深度阅读、独立思考、AI工具教程。记录真实的阅读体验与成长轨迹。" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:site_name" content="HAN" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="HAN — 以书为舟，与智共进" />
+  <meta name="twitter:description" content="深度阅读、独立思考、AI工具教程。记录真实的阅读体验与成长轨迹。" />
   <!-- 引入 Tailwind CSS 快速排版引擎 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -37,6 +54,21 @@
     } else {
       document.documentElement.classList.remove('dark');
     }
+  </script>
+  <!-- JSON-LD 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "HAN",
+    "url": "https://hanevolve.cn",
+    "description": "以书为舟，与智共进。深度阅读、独立思考、AI工具教程。",
+    "publisher": {
+      "@type": "Person",
+      "name": "HAN"
+    },
+    "inLanguage": "zh-CN"
+  }
   </script>
 </head>
 <body class="bg-appleLightBg dark:bg-appleDarkBg text-appleLightText dark:text-white antialiased font-sans transition-colors duration-300 selection:bg-neutral-300 dark:selection:bg-neutral-700 selection:text-black dark:selection:text-white">
@@ -142,10 +174,10 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <!-- 大卡片 1 -->
-      <div class="md:col-span-2 rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+      <a href="#" class="md:col-span-2 rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between cursor-pointer group">
         <div>
           <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">读书专栏</span>
-          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">精读与笔记</h3>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white transition">精读与笔记</h3>
           <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed max-w-md">
             每一本书都值得被认真对待。深度拆解经典著作，提炼核心思想，将知识转化为可执行的行动框架。
           </p>
@@ -154,13 +186,13 @@
           <span>输入 · 内化 · 输出</span>
           <span>01</span>
         </div>
-      </div>
+      </a>
 
       <!-- 小卡片 2 -->
-      <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+      <a href="#" class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between cursor-pointer group">
         <div>
           <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">沉思录</span>
-          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">独立思考</h3>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white transition">独立思考</h3>
           <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed">
             不随波逐流，不人云亦云。在阅读之后沉淀自己的判断，形成独立而清醒的思考体系。
           </p>
@@ -169,13 +201,13 @@
           <span>质疑 · 反思 · 洞察</span>
           <span>02</span>
         </div>
-      </div>
+      </a>
 
       <!-- 小卡片 3 -->
-      <div class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+      <a href="codex.html" class="rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between cursor-pointer group">
         <div>
           <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">AI工具站</span>
-          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">用技术加速</h3>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white transition">用技术加速</h3>
           <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed">
             善用AI工具提升效率，让机器处理重复劳动，让人专注于创造性思考与深度阅读。
           </p>
@@ -184,13 +216,13 @@
           <span>工具 · 效率 · 创造</span>
           <span>03</span>
         </div>
-      </div>
+      </a>
 
       <!-- 大卡片 4 -->
-      <div class="md:col-span-2 rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between">
+      <a href="#about" class="md:col-span-2 rounded-3xl bg-appleLightCard dark:bg-appleDarkCard p-8 border border-black/[0.04] dark:border-neutral-800/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] dark:shadow-none hover:border-black/15 dark:hover:border-neutral-700 transition duration-300 flex flex-col justify-between cursor-pointer group">
         <div>
           <span class="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">长期主义</span>
-          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100">日拱一卒，功不唐捐</h3>
+          <h3 class="text-2xl font-semibold mt-2 mb-3 text-neutral-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white transition">日拱一卒，功不唐捐</h3>
           <p class="text-appleLightTextMuted dark:text-appleDarkTextGray text-sm leading-relaxed max-w-md">
             知识的复利需要时间。每天读一点，每天想一点，日积月累便是脱胎换骨。不必急于求成，但绝不能停止前行。
           </p>
@@ -199,7 +231,7 @@
           <span>积累 · 复利 · 蜕变</span>
           <span>04</span>
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
